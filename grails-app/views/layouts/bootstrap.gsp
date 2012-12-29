@@ -58,7 +58,6 @@
                         <li><a  id="raw-json" class="hidden"><i class="icon-external-link"></i> Raw JSON</a></li>
                     </ul>
                 </g:if>
-                %{--
                 <shiro:notUser>
                     <ul class="nav pull-right">
                         <li class="dropdown">
@@ -92,15 +91,14 @@
                         <li class="dropdown">
                             <a class="dropdown-toggle" data-toggle="dropdown" ><shiro:principal/><b class="caret"></b></a>
                             <ul class="dropdown-menu">
-                                <li><g:link controller="profile" action="index"><i class="icon-cloud"></i> My blobs</g:link></li>
+                                <li><g:link controller="account" action="index"><i class="icon-cloud"></i> My blobs</g:link></li>
                                 <li class="divider"></li>
-                                <li><g:link controller="profile" action="settings"><i class="icon-list"></i> Settings</g:link></li>
+                                <li><g:link controller="account" action="settings"><i class="icon-list"></i> Settings</g:link></li>
                                 <li><g:link controller="auth" action="signOut"><i class="icon-signout"></i> Log out</g:link></li>
                             </ul>
                         </li>
                     </ul>
                 </shiro:user>
-                --}%
             </div>
         </div>
     </div>
