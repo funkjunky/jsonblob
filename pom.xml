@@ -123,7 +123,7 @@
                             <transformers>
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ServicesResourceTransformer" />
                                 <transformer implementation="org.apache.maven.plugins.shade.resource.ManifestResourceTransformer">
-                                    <mainClass>com.lowtuna.snewsy.SnewsyApplication</mainClass>
+                                    <mainClass>com.lowtuna.jsonblob.JsonblobApplication</mainClass>
                                 </transformer>
                             </transformers>
                         </configuration>
