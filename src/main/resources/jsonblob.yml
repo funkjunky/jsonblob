@@ -1,0 +1,7 @@
+ga:
+  webPropertyID: blah
+
+mongo:
+  hostname: localhost
+  port: 27017
+  database: jsonblob
