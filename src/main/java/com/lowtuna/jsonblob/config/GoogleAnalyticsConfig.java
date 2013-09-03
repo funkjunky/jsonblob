@@ -3,6 +3,7 @@ package com.lowtuna.jsonblob.config;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
+import org.apache.commons.lang3.StringUtils;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import java.util.Collections;
@@ -26,6 +27,6 @@ public class GoogleAnalyticsConfig {
         private String key;
 
         @JsonProperty
-        private String value;
+        private String value = StringUtils.EMPTY;
     }
 }

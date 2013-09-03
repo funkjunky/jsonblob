@@ -1,5 +1,11 @@
 ga:
-  webPropertyID: blah
+  webPropertyID: UA-36870706-1
+  customTrackingCodes:
+    -
+      key: _setDomainName
+      value: jsonblob.com
+    -
+      key: _trackPageview
 
 mongo:
   hostname: localhost
