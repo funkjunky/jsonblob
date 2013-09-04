@@ -1,6 +1,10 @@
 package com.lowtuna.jsonblob.resource;
 
+import com.google.common.base.Charsets;
+import com.google.common.collect.Maps;
 import com.lowtuna.jsonblob.business.BlobManager;
+import com.lowtuna.jsonblob.business.DemoBlobHelper;
+import com.lowtuna.jsonblob.util.view.MapBackedView;
 import com.mongodb.DBObject;
 import com.sun.jersey.api.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
@@ -10,6 +14,7 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
+import java.util.Map;
 
 @Path("/api")
 @Produces(MediaType.APPLICATION_JSON)
@@ -17,9 +22,21 @@ import javax.ws.rs.core.UriBuilder;
 @Slf4j
 public class JsonBlobCollectionResource {
     private final BlobManager blobManager;
+    private final DemoBlobHelper demoBlobHelper;
 
-    public JsonBlobCollectionResource(BlobManager blobManager) {
+    public JsonBlobCollectionResource(BlobManager blobManager, DemoBlobHelper demoBlobHelper) {
         this.blobManager = blobManager;
+        this.demoBlobHelper = demoBlobHelper;
+    }
+
+    @GET
+    @Produces(MediaType.TEXT_HTML)
+    @Consumes(MediaType.TEXT_HTML)
+    public MapBackedView apiInfo() {
+        Map<String, Object> variables = Maps.newHashMap();
+        variables.put("demoObjectId", demoBlobHelper.getDemoObjectId().toString());
+
+        return new MapBackedView("/views/api.mustache", Charsets.UTF_8, variables);
     }
 
     @POST
@@ -68,4 +85,5 @@ public class JsonBlobCollectionResource {
     private JsonBlobResource createJsonBlobResource(ObjectId id) {
         return new JsonBlobResource(id, blobManager);
     }
+
 }

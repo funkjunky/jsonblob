@@ -82,7 +82,7 @@ public class BlobManager {
             DBObject obj = collection.findOne(objectId);
             if (obj != null) {
                 WriteResult result = collection.remove(obj);
-                boolean removed = result.getN() > 0;
+                boolean removed = result.getN() > 0 && result.getLastError().ok();
                 if (removed) {
                     log.debug("successfully removed {} blob(s) of json with objectId='{}'", result.getN(), id);
                 } else {

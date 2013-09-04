@@ -6,6 +6,7 @@ import com.codahale.dropwizard.setup.Bootstrap;
 import com.codahale.dropwizard.setup.Environment;
 import com.codahale.dropwizard.views.ViewBundle;
 import com.lowtuna.jsonblob.business.BlobManager;
+import com.lowtuna.jsonblob.business.DemoBlobHelper;
 import com.lowtuna.jsonblob.healthcheck.MongoHealthCheck;
 import com.lowtuna.jsonblob.resource.JsonBlobCollectionResource;
 import com.lowtuna.jsonblob.util.mongo.JacksonMongoDbModule;
@@ -46,6 +47,10 @@ public class JsonblobApplication extends Application<JsonblobConfiguration> {
 
         environment.healthChecks().register("MongoDB", new MongoHealthCheck(mongoDBInstance));
 
-        environment.jersey().register(new JsonBlobCollectionResource(blobManager));
+        DemoBlobHelper demoBlobHelper = new DemoBlobHelper(blobManager);
+        environment.lifecycle().manage(demoBlobHelper);
+
+        environment.jersey().register(new JsonBlobCollectionResource(blobManager, demoBlobHelper));
+
     }
 }
