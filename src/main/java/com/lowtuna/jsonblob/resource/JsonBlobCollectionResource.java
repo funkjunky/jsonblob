@@ -1,5 +1,19 @@
 package com.lowtuna.jsonblob.resource;
 
+import java.util.Map;
+
+import javax.ws.rs.Consumes;
+import javax.ws.rs.GET;
+import javax.ws.rs.HeaderParam;
+import javax.ws.rs.POST;
+import javax.ws.rs.Path;
+import javax.ws.rs.PathParam;
+import javax.ws.rs.Produces;
+import javax.ws.rs.WebApplicationException;
+import javax.ws.rs.core.MediaType;
+import javax.ws.rs.core.Response;
+import javax.ws.rs.core.UriBuilder;
+
 import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 import com.lowtuna.jsonblob.business.BlobManager;
@@ -10,12 +24,6 @@ import com.sun.jersey.api.NotFoundException;
 import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 
-import javax.ws.rs.*;
-import javax.ws.rs.core.MediaType;
-import javax.ws.rs.core.Response;
-import javax.ws.rs.core.UriBuilder;
-import java.util.Map;
-
 @Path("/api")
 @Produces(MediaType.APPLICATION_JSON)
 @Consumes(MediaType.APPLICATION_JSON)
@@ -23,10 +31,12 @@ import java.util.Map;
 public class JsonBlobCollectionResource {
     private final BlobManager blobManager;
     private final DemoBlobHelper demoBlobHelper;
+    private final boolean deleteEnabled;
 
-    public JsonBlobCollectionResource(BlobManager blobManager, DemoBlobHelper demoBlobHelper) {
+    public JsonBlobCollectionResource(BlobManager blobManager, DemoBlobHelper demoBlobHelper, boolean deleteEnabled) {
         this.blobManager = blobManager;
         this.demoBlobHelper = demoBlobHelper;
+        this.deleteEnabled = deleteEnabled;
     }
 
     @GET
@@ -83,7 +93,7 @@ public class JsonBlobCollectionResource {
     }
 
     private JsonBlobResource createJsonBlobResource(ObjectId id) {
-        return new JsonBlobResource(id, blobManager);
+        return new JsonBlobResource(id, blobManager, deleteEnabled);
     }
 
 }

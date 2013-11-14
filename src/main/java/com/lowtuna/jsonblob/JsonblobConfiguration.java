@@ -14,6 +14,9 @@ import javax.validation.constraints.NotNull;
 @Setter
 public class JsonblobConfiguration extends Configuration {
 
+    @JsonProperty
+    private boolean deleteEnabled = false;
+
     @Valid
     @NotNull
     @JsonProperty("mongo")

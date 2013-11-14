@@ -50,7 +50,7 @@ public class JsonblobApplication extends Application<JsonblobConfiguration> {
         DemoBlobHelper demoBlobHelper = new DemoBlobHelper(blobManager);
         environment.lifecycle().manage(demoBlobHelper);
 
-        environment.jersey().register(new JsonBlobCollectionResource(blobManager, demoBlobHelper));
+        environment.jersey().register(new JsonBlobCollectionResource(blobManager, demoBlobHelper, configuration.isDeleteEnabled()));
 
     }
 }
