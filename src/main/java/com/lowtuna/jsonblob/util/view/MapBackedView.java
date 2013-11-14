@@ -1,6 +1,6 @@
 package com.lowtuna.jsonblob.util.view;
 
-import com.codahale.dropwizard.views.View;
+import io.dropwizard.views.View;
 import lombok.Getter;
 
 import java.nio.charset.Charset;

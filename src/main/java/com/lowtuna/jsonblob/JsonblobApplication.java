@@ -1,33 +1,37 @@
 package com.lowtuna.jsonblob;
 
-import com.codahale.dropwizard.Application;
-import com.codahale.dropwizard.assets.AssetsBundle;
-import com.codahale.dropwizard.setup.Bootstrap;
-import com.codahale.dropwizard.setup.Environment;
-import com.codahale.dropwizard.views.ViewBundle;
+import java.net.URL;
+
 import com.lowtuna.jsonblob.business.BlobManager;
 import com.lowtuna.jsonblob.business.DemoBlobHelper;
 import com.lowtuna.jsonblob.healthcheck.MongoHealthCheck;
 import com.lowtuna.jsonblob.resource.JsonBlobCollectionResource;
 import com.lowtuna.jsonblob.util.mongo.JacksonMongoDbModule;
 import com.mongodb.DB;
-
-import java.net.URL;
+import io.dropwizard.Application;
+import io.dropwizard.assets.AssetsBundle;
+import io.dropwizard.setup.Bootstrap;
+import io.dropwizard.setup.Environment;
+import io.dropwizard.views.ViewBundle;
+import org.apache.commons.lang3.StringUtils;
 
 public class JsonblobApplication extends Application<JsonblobConfiguration> {
+
     public static void main(String[] args) throws Exception {
         if (args.length == 0) {
             args = new String[2];
             args[0] = "server";
+        }
+        if (StringUtils.isEmpty(args[args.length - 1])) {
             URL configUrl = JsonblobApplication.class.getClassLoader().getResource("jsonblob.yml");
-            args[1] = configUrl.getPath();
+            args[args.length - 1] = configUrl.getPath();
         }
         new JsonblobApplication().run(args);
     }
 
     @Override
     public String getName() {
-        return "snewsy";
+        return "jsonblob";
     }
 
     @Override
@@ -43,7 +47,7 @@ public class JsonblobApplication extends Application<JsonblobConfiguration> {
 
         DB mongoDBInstance = configuration.getMongoDbConfig().instance();
 
-        BlobManager blobManager = new BlobManager(mongoDBInstance);
+        BlobManager blobManager = new BlobManager(mongoDBInstance, configuration.getBlobCollectionName(), environment.metrics());
 
         environment.healthChecks().register("MongoDB", new MongoHealthCheck(mongoDBInstance));
 
@@ -53,4 +57,5 @@ public class JsonblobApplication extends Application<JsonblobConfiguration> {
         environment.jersey().register(new JsonBlobCollectionResource(blobManager, demoBlobHelper, configuration.isDeleteEnabled()));
 
     }
+
 }

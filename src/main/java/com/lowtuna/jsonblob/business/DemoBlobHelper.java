@@ -1,14 +1,14 @@
 package com.lowtuna.jsonblob.business;
 
-import com.codahale.dropwizard.lifecycle.Managed;
+import java.io.InputStream;
+import java.io.StringWriter;
+
 import com.mongodb.DBObject;
+import io.dropwizard.lifecycle.Managed;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.commons.io.IOUtils;
 import org.bson.types.ObjectId;
-
-import java.io.InputStream;
-import java.io.StringWriter;
 
 @Slf4j
 public class DemoBlobHelper implements Managed {

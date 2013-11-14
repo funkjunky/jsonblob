@@ -14,6 +14,7 @@ import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
 import javax.ws.rs.core.UriBuilder;
 
+import com.codahale.metrics.annotation.Timed;
 import com.google.common.base.Charsets;
 import com.google.common.collect.Maps;
 import com.lowtuna.jsonblob.business.BlobManager;
@@ -25,8 +26,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.bson.types.ObjectId;
 
 @Path("/api")
-@Produces(MediaType.APPLICATION_JSON)
-@Consumes(MediaType.APPLICATION_JSON)
 @Slf4j
 public class JsonBlobCollectionResource {
     private final BlobManager blobManager;
@@ -42,6 +41,7 @@ public class JsonBlobCollectionResource {
     @GET
     @Produces(MediaType.TEXT_HTML)
     @Consumes(MediaType.TEXT_HTML)
+    @Timed
     public MapBackedView apiInfo() {
         Map<String, Object> variables = Maps.newHashMap();
         variables.put("demoObjectId", demoBlobHelper.getDemoObjectId().toString());
@@ -51,6 +51,8 @@ public class JsonBlobCollectionResource {
 
     @POST
     @Path("/jsonBlob")
+    @Consumes(MediaType.APPLICATION_JSON)
+    @Timed
     public Response create(String json) {
         if (!blobManager.isValidJson(json)) {
             throw new WebApplicationException(Response.Status.BAD_REQUEST);
@@ -71,6 +73,7 @@ public class JsonBlobCollectionResource {
     }
 
     @Path("/{path: .*}")
+    @Timed
     public JsonBlobResource getJsonBlobResource(@PathParam("path") String path, @HeaderParam("X-jsonblob") String jsonBlobId) {
         ObjectId blobId = null;
         try {
